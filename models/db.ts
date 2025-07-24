@@ -7,6 +7,7 @@ export const itineraries = [
     legs: ["leg_1", "leg_4"],
     price: "£35",
     agent: "Wizzair.com",
+    icon: "/wizzair.svg",
     agent_rating: 9.1,
   },
   {
@@ -14,6 +15,7 @@ export const itineraries = [
     legs: ["leg_2", "leg_5"],
     price: "£115",
     agent: "British Airways",
+    icon: "/british.svg",
     agent_rating: 9.3,
   },
   {
@@ -21,6 +23,7 @@ export const itineraries = [
     legs: ["leg_3", "leg_6"],
     price: "£90",
     agent: "Lufthansa",
+    icon: "/lufthansa.svg",
     agent_rating: 8.9,
   },
   {
@@ -28,6 +31,7 @@ export const itineraries = [
     legs: ["leg_1", "leg_5"],
     price: "£105",
     agent: "Trip.com",
+    icon: "/trip.svg",
     agent_rating: 9.5,
   },
   {
@@ -35,6 +39,7 @@ export const itineraries = [
     legs: ["leg_1", "leg_6"],
     price: "£195",
     agent: "Trip.com",
+    icon: "/trip.svg",
     agent_rating: 9.5,
   },
   {
@@ -42,6 +47,7 @@ export const itineraries = [
     legs: ["leg_2", "leg_4"],
     price: "£93",
     agent: "Kiwi.com",
+    icon: "/kiwi.svg",
     agent_rating: 8.0,
   },
   {
@@ -49,6 +55,7 @@ export const itineraries = [
     legs: ["leg_3", "leg_4"],
     price: "£42",
     agent: "CheapFligths",
+    icon: "/cheapfly.svg",
     agent_rating: 10.0,
   },
 ];

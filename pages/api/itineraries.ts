@@ -7,6 +7,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     name: it.id,
     price: it.price,
     agent: it.agent,
+    icon: it.icon.startsWith("/") ? it.icon : "/" + it.icon, // Ensure icon path is absolute
     agent_rating: it.agent_rating,
     highlight: it.agent_rating >= 9.5,
   }));

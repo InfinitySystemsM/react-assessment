@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const agentIcons: Record<string, string> = {
-  "Wizzair.com": "✈️",
-  "Wizz Air": "✈️",
-  CheapFligths: "💸",
-  Cheapfly: "💸",
-  Lufthansa: "🛫",
-  "Kiwi.com": "🥝",
-  "Kiwi.co": "🥝",
-  "Trip.com": "🌊",
-  "Trip.co": "🌊",
-  "British Airways": "🇬🇧",
-};
-
 export default function Page() {
   const [itineraries, setItineraries] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(true);
@@ -29,12 +16,13 @@ export default function Page() {
     fetch("/api/itineraries")
       .then((res) => res.json())
       .then((apiData) => {
+        console.log(apiData);
         const data = apiData.itineraries.map((it: any) => ({
           id: it.id,
           name: it.name,
           price: it.price,
           agent: it.agent,
-          agentIcon: agentIcons[it.agent] || "✈️",
+          icon: it.icon, // Assuming the API provides the icon URL in icon field
           rating: it.agent_rating,
           highlight: it.highlight,
         }));
@@ -214,7 +202,9 @@ export default function Page() {
                   className="py-3 px-4 w-1/4 flex justify-center items-center gap-2 text-center"
                   role="cell"
                 >
-                  <span>{it.agentIcon}</span>
+                  <span>
+                    <img src={it.icon} alt={it.agent} className="w-5 h-5" />
+                  </span>
                   <span className="text-center w-full">{it.agent}</span>
                 </div>
                 <div

@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const agentIcons: Record<string, string> = {
-  "Wizzair.com": "✈️",
-  "Wizz Air": "✈️",
-  CheapFligths: "💸",
-  Cheapfly: "💸",
-  Lufthansa: "🛫",
-  "Kiwi.com": "🥝",
-  "Kiwi.co": "🥝",
-  "Trip.com": "🌊",
-  "Trip.co": "🌊",
-  "British Airways": "🇬🇧",
-};
-
 export default function ItineraryDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -69,7 +56,13 @@ export default function ItineraryDetail() {
             <div className="flex-1">
               <div className="bg-[#f2f2f2] rounded-lg mb-2 flex items-center justify-between px-4 py-2">
                 <div className="flex items-center gap-2">
-                  <span>{agentIcons[leg.airline_name] || "✈️"}</span>
+                  <span>
+                    <img
+                      src={itinerary.icon}
+                      alt={itinerary.agent}
+                      className="w-5 h-5"
+                    />
+                  </span>
                   <span className="font-medium text-gray-700">
                     {leg.airline_name}
                   </span>
