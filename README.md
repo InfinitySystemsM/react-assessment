@@ -1,75 +1,45 @@
 # Kodea Front-end React Coding Assessment
 
-## Overview
+## Setup Instructions
 
-To complete this assessment, you will need to write a simple [React](https://facebook.github.io/react/) web app, and provide us the source files to be built.
+1. **Clone the repository:**
 
-The purpose of this assessment is to assess your **skills and approach to composing a simple web app** given an API feed. We will also assess the **generated HTML, CSS, and JS** output.
+   ```bash
+   git clone https://github.com/InfinitySystemsM/react-assessment.git
+   cd react-assessment
+   ```
 
-This assessment is expected to take about 2-4 hours.
+2. **Install dependencies:**
 
-## What to do?
+   ```bash
+   npm install
+   ```
 
-Your goal is to implement a simple React application, where users will be able to view a job candidate's video responses, comment on the responses & save the data. The application should use Typescript and Next.js. It has to follow the following mock ups:
+3. **Run the project in development mode:**
 
-- https://www.figma.com/design/pwYNuO5HBsBllVtm4kaVBG/FRONTEND-TEST?node-id=0-1&t=e4hDoBVHaSE6GlyM-1
+   ```bash
+   npm run dev
+   ```
 
-Although its a very basic exercise, we will be looking for simple, well-designed, well-commented and reliable code in the submission.
+   The app will be available at `http://localhost:3000`.
 
-Please include a `README` with setup instructions, and any other documentation you created as part of your solution.
+4. **Build and run the project in production mode:**
 
-Also, add very short info for the following to your `README`:
+   ```bash
+   npm run build
+   npm start
+   ```
 
-- Are there any improvements you could make to your submission?
-- What would you do differently if you were allocated more time?
-
-## Tasks
-
-**REST API**
-
-- Fetch flight results from the provided flights API.
-
-**Itineraries List**
-
-- Create a screen to LIST all of the itineraries with the required filters.
-
-**Itinerary Detail**
-
-- Create a screen to LIST the legs that are part of a selected itinerary
-
-## Flight results
-
-The provided API will return two collections of different items:
-
-- **Itineraries** - These are the containers for your trips, tying together **Legs**, and **prices**. Prices are offered by an **agent** - an airline or travel agent.
-
-- **Legs** - These are journeys (outbound, return) with **duration**, **stops** and **airlines**.
-
-## Submission Guidelines
-
-- A fork of this repository should be submitted to antonio@kodealabs.com with the implemented tasks in no less than 6h of the start of the assesment. However, the assesment is expected to take less than 4h. The amount of time you take to take the assesment has no effect in the results.
-
-## Evaluation Criteria
-
-- Your implementation works as described in the [task](#task).
-- Quality of the implemented code
-- Design decisions (models, UI design, relationships between entities, etc)
-- Videocall or in-person interview to explain the implemented code to the Kodea team and answer further questions
-
-## Requirements
-
-- You can use whatever libraries, frameworks, task runners and build processes you like. React is the only requirement.
-
-## API Usage
-
-API can be launched using npm start. You will need to run npm install once you start working on the project to install dependencies.
-
-| Endpoint                       | Result                                                |
-| ------------------------------ | ----------------------------------------------------- |
-| /itineraries                   | Lists all available itineraries                       |
-| /legs                          | Lists all available legs                              |
-| ------------------------------ | ----------------------------------------------------- |
-
-More info about API usage can be found at the [json-server repo](https://github.com/typicode/json-server).
+   This will compile the Next.js app and start the production server.
 
 ---
+
+## Improvements Made
+
+- Implemented a simple ORM and a database file to simulate entity interaction and provide a realistic API simulation.
+- Used Next.js API routes to simulate backend API calls, allowing for a more modular and scalable architecture.
+
+## What Would Be Changed with More Time
+
+- A real database would be implemented to properly handle data loading and interaction between the API and persistent storage.
+- Additional features and optimizations could be added, such as authentication, advanced filtering, and improved error handling.
