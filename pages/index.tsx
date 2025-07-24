@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const agentIcons: Record<string, string> = {
   "Wizzair.com": "✈️",
@@ -16,6 +17,13 @@ const agentIcons: Record<string, string> = {
 export default function Page() {
   const [itineraries, setItineraries] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [filtered, setFiltered] = useState<Array<any>>([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [sortType, setSortType] = useState<"popular" | "price" | "rate">(
+    "popular"
+  );
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/itineraries")
@@ -31,13 +39,61 @@ export default function Page() {
           highlight: it.highlight,
         }));
         setItineraries(data);
+        setFiltered(data);
         setLoading(false);
       });
   }, []);
 
+  useEffect(() => {
+    if (!search) {
+      setFiltered(itineraries);
+    } else {
+      setFiltered(
+        itineraries.filter(
+          (it) =>
+            it.id.toLowerCase().includes(search.toLowerCase()) ||
+            it.agent.toLowerCase().includes(search.toLowerCase()) ||
+            it.price.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    }
+  }, [search, itineraries]);
+
+  useEffect(() => {
+    let sorted = [...filtered];
+    if (sortType === "price") {
+      sorted.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    } else if (sortType === "rate") {
+      sorted.sort((a, b) => b.rating - a.rating);
+    } else {
+      sorted = sorted.sort(() => Math.random() - 0.5);
+    }
+    setFiltered(sorted);
+  }, [sortType]);
+
+  const handleSort = (type: "popular" | "price" | "rate") => {
+    setSortType(type);
+    setShowFilter(false);
+  };
+
   return (
     <div className="flex flex-col w-full">
-      <h1 className="text-3xl text-[#2d2046] mb-16">Welcome</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl text-[#2d2046]">Welcome</h1>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <img
+              src="/user.png"
+              alt="Pepe Ladino"
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <span className="font-medium text-[#2d2046]">Pepe Ladino</span>
+          </div>
+          <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-[#f2f2f2] hover:bg-cyan-100 transition">
+            <img src="/help.svg" alt="Help" className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
       <div className="flex justify-start gap-5 mb-8">
         <div className="flex items-center w-[300px] h-[48px] bg-[#f7f7f7] rounded-lg px-4">
           <svg
@@ -61,7 +117,57 @@ export default function Page() {
             placeholder="Search"
             className="bg-transparent outline-none text-gray-500 text-base w-full"
             style={{ fontWeight: 500 }}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+        </div>
+        <div className="relative">
+          <button
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f2f2f2] font-medium shadow-sm hover:bg-cyan-200 transition"
+            onClick={() => setShowFilter((prev) => !prev)}
+            style={{ height: "48px" }}
+          >
+            <img src="/filter.svg" alt="Filter" className="w-5 h-5" />
+          </button>
+          {showFilter && (
+            <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+              <ul className="py-2">
+                <li>
+                  <button
+                    className={`flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                      sortType === "popular" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                    onClick={() => handleSort("popular")}
+                  >
+                    <img src="/smile.svg" alt="Popular" className="w-5 h-5" />
+                    Most Popular
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                      sortType === "price" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                    onClick={() => handleSort("price")}
+                  >
+                    <img src="/currency.svg" alt="Price" className="w-5 h-5" />
+                    Price, Low to High
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                      sortType === "rate" ? "bg-gray-100 font-semibold" : ""
+                    }`}
+                    onClick={() => handleSort("rate")}
+                  >
+                    <img src="/star.svg" alt="Rate" className="w-5 h-5" />
+                    Rate, High to Low
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       <p className="mb-8 text-[#2d2046] text-sm">
@@ -82,14 +188,15 @@ export default function Page() {
           {loading ? (
             <div className="text-center py-8 text-gray-400">Loading...</div>
           ) : (
-            itineraries.map((it) => (
+            filtered.map((it) => (
               <div
                 key={it.id}
                 className={`flex items-center bg-white text-center rounded-lg shadow-sm border border-gray-200 ${
                   it.highlight ? "bg-cyan-100" : ""
-                }`}
+                } hover:bg-green-100 transition-colors duration-200 cursor-pointer`}
                 style={{ minHeight: "48px" }}
                 role="row"
+                onClick={() => router.push(`/itinerary/${it.id}`)}
               >
                 <div
                   className="py-3 px-4 w-1/4 rounded-l-lg flex justify-center items-center text-center"
